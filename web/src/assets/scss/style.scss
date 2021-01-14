@@ -1,0 +1,303 @@
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    font-size: 13px;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    line-height: 1.2rem;
+    background-color: #F1F1F1;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: #999;
+}
+
+p {
+    line-height: 1.5em;
+}
+
+// 定义主要颜色数组
+$colors: (
+    "primary": #db9e3f, //定义主要颜色
+    "danger": #7a1b17,
+    "info": #4d9cff,
+    "blue": #1f3695,
+    "white": #fff,
+    "light-e": #eceef0,
+    "light-c": #fcfcfc,
+    "light": #f9f9f9,
+    "border": #d4d9de,
+    "grey": #999,
+    "black-6": #666,
+    "black": #333,
+    "black-dark": #343440,
+    "black-323": #32322c,
+    "dark": #212222,
+    
+);
+
+// 边框颜色
+$border-color: map-get($colors, border );
+
+@each $colorKey,
+$color in $colors {
+    .text-#{$colorKey} {
+        color: $color;
+    }
+
+    .bg-#{$colorKey} {
+        background-color: $color;
+    }
+}
+
+// 循环对齐方式
+// $var 变量接收循环结果；list 要循环的数组
+// @each $var in list {
+@each $var in (left, center, right) {
+    .text-#{$var} {
+        text-align: $var;
+    }
+}
+
+// font size
+$base-font-size: 1rem;
+$font-sizes: (
+    xxs: .6154,
+    xs: 0.792, // 10px
+    sm: .9231, // 12px
+    md: 1, // 13px
+    lg: 1.0769, // 14px
+    xl: 1.2308 //16px
+);
+
+@each $sizeKey,
+$size in $font-sizes {
+    .fs-#{$sizeKey} {
+        font-size: $size * $base-font-size;
+    }
+}
+
+// 溢出隐藏 换行隐藏
+.text-ellipsis {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// width，height
+.w-100 {
+    width: 100%;
+}
+.h-100 {
+    height: 100%;
+}
+
+// 定义 flex
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+// 对齐方式
+// 主轴
+$flex-jc: (start: flex-start,
+    end: flex-end,
+    center: center,
+    between: space-between,
+    around: space-around);
+
+@each $key,
+$value in $flex-jc {
+    .jc-#{$key} {
+        justify-content: $value;
+    }
+}
+
+// 交叉轴
+$flex-ai: (start: flex-start,
+    end: flex-end,
+    center: center,
+    // 水平方向对齐，垂直方向居中
+    stretch: stretch);
+
+@each $key,
+$value in $flex-ai {
+    .ai-#{$key} {
+        align-items: $value;
+    }
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+// 边距
+// 类名样式：.mt-1: xxx;    pt-1: xxx;      margin/padding-top: xxx;
+$spacing-types: (m: margin, p: padding);
+$spacing-directions: (t: top, r: right, b: bottom, l: left);
+$spacing-base-size: 1rem;
+$spacing-sizes: (0: 0, 1: .25, 2: .5, 3: 1, 4: 1.5, 5: 3, 6: .35, 7: 1.2, 8: .7);
+@each $typeKey, $type in $spacing-types {
+    // .m-1
+    @each $sizeKey, $sizeVal in $spacing-sizes {
+        .#{$typeKey}-#{$sizeKey} {
+            #{$type}: $sizeVal * $spacing-base-size;
+        }
+    }
+    // .mx-1 x 表示横向；y 纵向
+    @each $sizeKey, $sizeVal in $spacing-sizes {
+        // .mx-1
+        .#{$typeKey}x-#{$sizeKey} {
+            #{$type}-left: $sizeVal * $spacing-base-size;
+            #{$type}-right: $sizeVal * $spacing-base-size;
+        }
+        // .my-1
+        .#{$typeKey}y-#{$sizeKey} {
+            #{$type}-top: $sizeVal * $spacing-base-size;
+            #{$type}-bottom: $sizeVal * $spacing-base-size;
+        }
+    }
+
+    // mt-1
+    @each $directionKey, $direction in $spacing-directions {
+        @each $sizeKey, $sizeVal in $spacing-sizes {
+            .#{$typeKey}#{$directionKey}-#{$sizeKey} {
+                #{$type}-#{$direction}: $sizeVal * $spacing-base-size;
+            }
+        }
+    }
+}
+
+// 按钮
+.btn {
+    border: none;
+    border-radius: .1538rem;
+    padding: .3rem .6rem;
+    &.btn-lg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        i {
+            color: map-get($colors, 'primary');
+            margin-right: .5rem;
+        }
+        background: map-get($colors, 'light-c');
+        border: 1px solid  map-get($colors, 'light-e');
+        padding: .8rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+// nav
+.nav {
+    display: flex;
+    .nav-item {
+      border-bottom: 3px solid transparent;
+      padding-bottom: 0.2rem;
+      &.active {
+        color: map-get($colors, 'primary');
+        border-bottom-color: map-get($colors, 'primary');
+      }
+    }
+    &.nav-inverse {
+      .nav-item {
+        color: map-get($colors, 'white');
+        &.active {
+          border-bottom-color: map-get($colors, 'white');
+        }
+      }
+    }
+    
+  }
+
+// 精灵图
+.sprite {
+    background: url(../images/index.png) no-repeat 0 0;
+    background-size: 375px;
+    display: inline-block;
+    width: 23px;
+    height: 20px;
+    &.sprite-news {
+        background-position: -224px -67px;
+    }
+    &.sprite-story {
+        background-position: -318px -68px;
+    }
+    &.sprite-shop {
+        width: 19px;
+	    height: 22px;
+        background-position:  -131px -4px;
+    }
+    &.sprite-experience {
+        background-position: -37px -67px;
+    }
+    &.sprite-newGuy {
+        background-position: -319px -5px;
+    }
+    &.sprite-inherit {
+        width: 24px;
+        background-position: -128px -66px;
+    }
+    &.sprite-camp {
+        width: 24px;
+        height: 24px;
+        background-position: -222px -4px;
+    }
+    &.sprite-Weichat {
+        width: 24px;
+        background-position: 0 -418px;
+    }
+    &.sprite-version {
+        height: 25px;
+        background: url(../images/version-icon.png)  no-repeat;
+        background-size: 25px;
+    }
+    &.sprite-djhj {
+        width: 34px;
+        background: url(../images/djhj.png)  no-repeat;
+        background-size: 34px;
+    }
+    &.sprite-wzwxt {
+        width: 45px;
+        height: 18px;
+        background: url(../images/wxwzt.png)  no-repeat 8px 0;
+        background-size: 45px;
+    }
+    &.sprite-cyhdy {
+        width: 35px;
+        height: 32px;
+        background: url(../images/cyhdy.png) no-repeat;
+        background-size: 35px;
+    }
+    &.sprite-arrow {
+        width: 10px;
+        height: 10px;
+        background-position: -141px -232px;
+    }
+}
+
+// 设置边框
+@each $dir in (top, right, bottom, left) {
+    .border-#{$dir} {
+        border-#{$dir}: 1px solid $border-color;
+    }
+}
